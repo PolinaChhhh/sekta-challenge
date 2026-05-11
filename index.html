@@ -592,6 +592,11 @@
         }
       }
 
+      // fallback: если ИТОГ НЕДЕЛИ не заполнен — суммируем все СУММЫ по колонкам
+      if (total === 0) {
+        total = scores.reduce((a, b) => a + b, 0);
+      }
+
       const participants = names
         .map((name, i) => ({ name, score: scores[i] }))
         .filter(p => p.name && p.score > 0);
