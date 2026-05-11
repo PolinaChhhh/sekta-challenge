@@ -443,13 +443,13 @@
     .diary-modal {
       background: var(--white);
       border-radius: 24px;
-      padding: 28px;
+      padding: 24px;
       max-width: 480px;
       width: 100%;
       max-height: 88vh;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       box-shadow: 0 24px 80px rgba(0,0,0,0.2);
       animation: modal-in 0.25s cubic-bezier(0.22,1,0.36,1);
     }
@@ -458,104 +458,125 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      flex-shrink: 0;
     }
     .diary-title { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; }
     .diary-title span { color: var(--orange); }
     .diary-team-badge {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 100px;
-      color: white;
-      margin-top: 4px;
-      display: inline-block;
+      font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 100px;
+      color: white; margin-top: 4px; display: inline-block;
     }
 
-    .diary-form {
+    /* Week tabs */
+    .week-tabs {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .week-day {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 7px 2px 5px;
+      border-radius: 10px; cursor: pointer;
+      border: 1.5px solid transparent;
       background: var(--bg);
-      border-radius: 14px;
-      padding: 16px;
+      transition: all 0.15s; gap: 2px;
+    }
+    .week-day:hover { border-color: var(--border); }
+    .week-day.today .wd-name { color: var(--orange); }
+    .week-day.today .wd-num  { color: var(--orange); }
+    .week-day.active {
+      background: var(--orange); border-color: var(--orange);
+    }
+    .week-day.active .wd-name,
+    .week-day.active .wd-num  { color: white; }
+    .wd-name { font-size: 10px; font-weight: 700; letter-spacing: 0.04em; color: var(--text-dim); text-transform: uppercase; }
+    .wd-num  { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1; }
+    .wd-dot  { width: 5px; height: 5px; border-radius: 50%; background: var(--orange); }
+    .week-day.active .wd-dot { background: rgba(255,255,255,0.8); }
+
+    /* Day content */
+    .diary-day-content {
+      flex: 1;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
-    .diary-form-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-dim);
+
+    /* Timeline */
+    .diary-timeline { display: flex; flex-direction: column; gap: 0; }
+    .diary-timeline-item {
+      display: flex; gap: 10px; align-items: flex-start;
     }
-    .diary-textarea {
-      width: 100%;
+    .diary-time-col {
+      display: flex; flex-direction: column; align-items: center;
+      width: 44px; flex-shrink: 0; padding-top: 2px;
+    }
+    .diary-time-label {
+      font-size: 11px; font-weight: 700; color: var(--text-dim);
+      white-space: nowrap;
+    }
+    .diary-time-line {
+      width: 2px; flex: 1; min-height: 16px;
+      background: var(--border); margin-top: 4px;
+    }
+    .diary-timeline-item:last-child .diary-time-line { display: none; }
+    .diary-entry {
+      flex: 1; background: var(--bg);
       border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 14px;
-      font-family: inherit;
-      resize: none;
-      background: var(--white);
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.15s;
-      line-height: 1.5;
+      border-radius: 12px; padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .diary-entry-text { font-size: 14px; color: var(--text); line-height: 1.5; }
+
+    /* Add button */
+    .diary-add-btn {
+      background: none; border: 1.5px dashed var(--border);
+      color: var(--text-dim); border-radius: 12px;
+      padding: 10px; width: 100%; font-size: 14px;
+      font-family: inherit; font-weight: 600; cursor: pointer;
+      transition: all 0.15s; margin-top: 4px;
+    }
+    .diary-add-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* Add form */
+    .diary-add-form {
+      background: var(--bg); border-radius: 14px;
+      padding: 14px; display: flex; flex-direction: column; gap: 8px;
+      margin-top: 4px;
+    }
+    .diary-add-row { display: flex; gap: 8px; align-items: flex-start; }
+    .diary-time-input {
+      border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 9px 10px; font-size: 14px; font-family: inherit;
+      background: var(--white); color: var(--text); outline: none;
+      width: 100px; flex-shrink: 0; transition: border-color 0.15s;
+    }
+    .diary-time-input:focus { border-color: var(--orange); }
+    .diary-textarea {
+      flex: 1; border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 9px 12px; font-size: 14px; font-family: inherit;
+      resize: none; background: var(--white); color: var(--text);
+      outline: none; transition: border-color 0.15s; line-height: 1.5;
     }
     .diary-textarea:focus { border-color: var(--orange); }
     .diary-save-btn {
-      background: var(--orange);
-      color: white;
-      border: none;
-      padding: 11px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-family: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.18s;
+      background: var(--orange); color: white; border: none;
+      padding: 10px; border-radius: 10px; font-size: 14px;
+      font-family: inherit; font-weight: 700; cursor: pointer;
+      transition: background 0.18s; width: 100%;
     }
     .diary-save-btn:hover { background: #d94e1a; }
     .diary-save-btn:disabled { background: #ccc; cursor: default; }
 
-    .diary-entries {
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-    }
-    .diary-entries-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 2px;
-    }
-    .diary-entry {
-      background: var(--bg);
-      border-radius: 12px;
-      padding: 12px 14px;
-      border-left: 3px solid var(--orange);
-    }
-    .diary-entry-time {
-      font-size: 11px;
-      color: var(--text-dim);
-      margin-bottom: 4px;
-    }
-    .diary-entry-text {
-      font-size: 14px;
-      color: var(--text);
-      line-height: 1.5;
-    }
     .diary-empty {
-      text-align: center;
-      color: var(--text-dim);
-      font-size: 13px;
-      padding: 20px 0;
+      text-align: center; color: var(--text-dim);
+      font-size: 13px; padding: 24px 0;
     }
     .diary-loading-entries {
-      text-align: center;
-      color: var(--text-dim);
+      text-align: center; color: var(--text-dim);
       font-size: 13px;
       padding: 10px 0;
     }
@@ -1068,16 +1089,9 @@
         </div>
         <button class="modal-close" onclick="closeDiary()">✕</button>
       </div>
-
-      <div class="diary-form">
-        <div class="diary-form-label">Новая запись</div>
-        <textarea class="diary-textarea" id="diaryText" rows="3" placeholder="Как прошёл день? Что получилось, что было сложно…"></textarea>
-        <button class="diary-save-btn" id="diarySaveBtn" onclick="saveDiaryEntry()">Сохранить запись</button>
-      </div>
-
-      <div class="diary-entries-label">Предыдущие записи</div>
-      <div class="diary-entries" id="diaryEntries">
-        <div class="diary-loading-entries">Загрузка…</div>
+      <div class="week-tabs" id="weekTabs"></div>
+      <div class="diary-day-content" id="diaryDayContent">
+        <div class="diary-empty">Загрузка…</div>
       </div>
     </div>
   </div>
@@ -1425,24 +1439,38 @@
     }
 
     /* ── Diary ── */
-    // Replace with your deployed Apps Script URL:
     const DIARY_URL = 'https://script.google.com/macros/s/AKfycbxMorKkFsH4DdeBcduZH8Zui1LJlbRa_lK69TSorxWfaTCJaxsbI0N7_sWhIcagNGxqZQ/exec';
 
-    let diaryCurrentName = '';
-    let diaryCurrentTeam = '';
-    let diaryCurrentColor = '';
+    let diaryCurrentName = '', diaryCurrentTeam = '', diaryCurrentColor = '';
+    let diaryAllEntries = {};   // { 'YYYY-MM-DD': [entry, ...] }
+    let diarySelectedDate = '';
+    let diaryAddOpen = false;
+
+    function toDateKey(d) { return d.toISOString().split('T')[0]; }
+
+    function getWeekDays() {
+      const today = new Date();
+      const dow = today.getDay();
+      const monday = new Date(today);
+      monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
+      monday.setHours(0,0,0,0);
+      return Array.from({length:7}, (_, i) => {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        return d;
+      });
+    }
 
     function openDiary(name, teamName, teamColor) {
-      diaryCurrentName  = name;
-      diaryCurrentTeam  = teamName;
-      diaryCurrentColor = teamColor;
+      diaryCurrentName = name; diaryCurrentTeam = teamName; diaryCurrentColor = teamColor;
+      diaryAllEntries = {}; diaryAddOpen = false;
+      diarySelectedDate = toDateKey(new Date());
       document.getElementById('diaryName').textContent = name;
       const badge = document.getElementById('diaryTeamBadge');
-      badge.textContent = teamName;
-      badge.style.background = teamColor;
-      document.getElementById('diaryText').value = '';
+      badge.textContent = teamName; badge.style.background = teamColor;
       document.getElementById('diaryModal').classList.add('open');
       document.body.style.overflow = 'hidden';
+      renderWeekTabs(); renderDayContent();
       loadDiaryEntries(name);
     }
     function closeDiary() {
@@ -1453,56 +1481,95 @@
       if (e.target === document.getElementById('diaryModal')) closeDiary();
     }
 
+    function renderWeekTabs() {
+      const RU = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+      const todayKey = toDateKey(new Date());
+      document.getElementById('weekTabs').innerHTML = getWeekDays().map((d, i) => {
+        const key = toDateKey(d);
+        const active = key === diarySelectedDate;
+        const isToday = key === todayKey;
+        const hasDot = (diaryAllEntries[key]||[]).length > 0;
+        return `<div class="week-day ${active?'active':''} ${isToday?'today':''}" onclick="selectDay('${key}')">
+          <span class="wd-name">${RU[i]}</span>
+          <span class="wd-num">${d.getDate()}</span>
+          ${hasDot ? '<span class="wd-dot"></span>' : '<span style="height:5px"></span>'}
+        </div>`;
+      }).join('');
+    }
+
+    function selectDay(key) {
+      diarySelectedDate = key; diaryAddOpen = false;
+      renderWeekTabs(); renderDayContent();
+    }
+
+    function renderDayContent() {
+      const entries = [...(diaryAllEntries[diarySelectedDate]||[])].sort((a,b) => new Date(a.datetime)-new Date(b.datetime));
+      const now = new Date();
+      const defaultTime = now.toTimeString().slice(0,5);
+
+      const timelineHTML = entries.length === 0
+        ? '<div class="diary-empty">Записей нет — добавь первую! ✍️</div>'
+        : `<div class="diary-timeline">${entries.map(e => {
+            const dt = new Date(e.datetime);
+            const t = isNaN(dt) ? '' : dt.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+            return `<div class="diary-timeline-item">
+              <div class="diary-time-col">
+                <div class="diary-time-label">${t}</div>
+                <div class="diary-time-line"></div>
+              </div>
+              <div class="diary-entry" style="border-color:${diaryCurrentColor}40">
+                <div class="diary-entry-text">${e.text.replace(/\n/g,'<br>')}</div>
+              </div>
+            </div>`;
+          }).join('')}</div>`;
+
+      const addFormHTML = diaryAddOpen ? `
+        <div class="diary-add-form">
+          <div class="diary-add-row">
+            <input type="time" class="diary-time-input" id="diaryTimeInput" value="${defaultTime}">
+            <textarea class="diary-textarea" id="diaryText" rows="2" placeholder="Что произошло?"></textarea>
+          </div>
+          <button class="diary-save-btn" id="diarySaveBtn" onclick="saveDiaryEntry()">Сохранить</button>
+        </div>` : `<button class="diary-add-btn" onclick="showAddForm()">＋ Добавить запись</button>`;
+
+      document.getElementById('diaryDayContent').innerHTML = timelineHTML + addFormHTML;
+      if (diaryAddOpen) document.getElementById('diaryText')?.focus();
+    }
+
+    function showAddForm() { diaryAddOpen = true; renderDayContent(); }
+
     async function loadDiaryEntries(name) {
-      const el = document.getElementById('diaryEntries');
-      el.innerHTML = '<div class="diary-loading-entries">Загружаем записи…</div>';
-      if (DIARY_URL === 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') {
-        el.innerHTML = '<div class="diary-empty">⚙️ Дневник ещё не настроен</div>';
-        return;
-      }
       try {
         const res = await fetch(`${DIARY_URL}?name=${encodeURIComponent(name)}`);
         const data = await res.json();
-        if (!data.entries.length) {
-          el.innerHTML = '<div class="diary-empty">Записей пока нет — напиши первую! ✍️</div>';
-          return;
+        diaryAllEntries = {};
+        for (const e of (data.entries||[])) {
+          const key = e.datetime ? e.datetime.slice(0,10) : toDateKey(new Date());
+          if (!diaryAllEntries[key]) diaryAllEntries[key] = [];
+          diaryAllEntries[key].push(e);
         }
-        el.innerHTML = data.entries.map(e => {
-          const dt = new Date(e.datetime);
-          const timeStr = isNaN(dt) ? '' : dt.toLocaleString('ru-RU', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
-          return `
-            <div class="diary-entry" style="border-left-color:${diaryCurrentColor}">
-              <div class="diary-entry-time">${timeStr}</div>
-              <div class="diary-entry-text">${e.text.replace(/\n/g,'<br>')}</div>
-            </div>`;
-        }).join('');
-      } catch {
-        el.innerHTML = '<div class="diary-empty">Не удалось загрузить записи</div>';
-      }
+        renderWeekTabs(); renderDayContent();
+      } catch { /* silently fail */ }
     }
 
     async function saveDiaryEntry() {
-      const text = document.getElementById('diaryText').value.trim();
+      const text = (document.getElementById('diaryText')?.value||'').trim();
+      const timeVal = document.getElementById('diaryTimeInput')?.value || new Date().toTimeString().slice(0,5);
       if (!text) return;
-      if (DIARY_URL === 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') {
-        alert('Сначала настрой Apps Script и вставь URL в код!');
-        return;
-      }
+      const datetime = new Date(`${diarySelectedDate}T${timeVal}:00`).toISOString();
       const btn = document.getElementById('diarySaveBtn');
-      btn.disabled = true;
-      btn.textContent = 'Сохраняем…';
+      btn.disabled = true; btn.textContent = 'Сохраняем…';
       try {
         await fetch(DIARY_URL, {
           method: 'POST',
-          body: JSON.stringify({ name: diaryCurrentName, team: diaryCurrentTeam, text })
+          body: JSON.stringify({ name: diaryCurrentName, team: diaryCurrentTeam, text, datetime })
         });
-        document.getElementById('diaryText').value = '';
+        diaryAddOpen = false;
         await loadDiaryEntries(diaryCurrentName);
       } catch {
-        alert('Ошибка сохранения, попробуй ещё раз');
+        alert('Ошибка, попробуй ещё раз');
+        btn.disabled = false; btn.textContent = 'Сохранить';
       }
-      btn.disabled = false;
-      btn.textContent = 'Сохранить запись';
     }
 
     /* ── Modal ── */
