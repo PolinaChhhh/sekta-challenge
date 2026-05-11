@@ -800,18 +800,25 @@
 
     /* ── CSV parser ── */
     function parseCSV(text) {
+      // proper parser: handles quoted fields with embedded newlines
       const rows = [];
-      for (const line of text.replace(/\r/g,'').split('\n')) {
-        const cells = [];
-        let cur = '', inQ = false;
-        for (let i = 0; i < line.length; i++) {
-          if (line[i] === '"') { inQ = !inQ; }
-          else if (line[i] === ',' && !inQ) { cells.push(cur.trim()); cur = ''; }
-          else { cur += line[i]; }
+      let row = [], cur = '', inQ = false;
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (inQ) {
+          if (ch === '"' && text[i+1] === '"') { cur += '"'; i++; } // escaped quote
+          else if (ch === '"') { inQ = false; }
+          else { cur += ch; } // newlines inside quotes become spaces
+        } else {
+          if (ch === '"') { inQ = true; }
+          else if (ch === ',') { row.push(cur.trim()); cur = ''; }
+          else if (ch === '\n') {
+            row.push(cur.trim()); rows.push(row);
+            row = []; cur = '';
+          } else if (ch !== '\r') { cur += ch; }
         }
-        cells.push(cur.trim());
-        rows.push(cells);
       }
+      if (cur || row.length) { row.push(cur.trim()); rows.push(row); }
       return rows;
     }
 
