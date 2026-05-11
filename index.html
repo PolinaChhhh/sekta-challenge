@@ -807,6 +807,149 @@
     }
     .join-sheet-btn:hover { background: #d94e1a; }
 
+    /* ── КЭ easter egg ── */
+    .ke-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(241,90,36,0.4);
+      z-index: 150;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: ke-bounce 3s ease-in-out infinite;
+    }
+    .ke-fab:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 28px rgba(241,90,36,0.5);
+      animation: none;
+    }
+    @keyframes ke-bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .ke-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 400;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .ke-overlay.open { display: flex; }
+
+    .ke-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+      animation: modal-in 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .ke-card {
+      text-align: left !important;
+    }
+    .ke-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .ke-emoji { font-size: 44px; line-height: 1; margin-bottom: 8px; }
+    .ke-question {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .ke-question em { font-style: normal; color: var(--orange); }
+
+    /* chat bubbles */
+    .ke-chat {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    .ke-msg {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .ke-msg.right { flex-direction: row-reverse; }
+
+    .ke-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--border);
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ke-bubble {
+      max-width: 75%;
+      padding: 9px 13px;
+      border-radius: 16px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--text);
+      background: var(--bg);
+      border-bottom-left-radius: 4px;
+    }
+    .ke-msg.right .ke-bubble {
+      background: var(--orange-lt);
+      color: var(--text);
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 4px;
+    }
+    .ke-bubble strong { font-weight: 800; }
+    .ke-bubble.reveal {
+      background: var(--orange);
+      color: white;
+      border-radius: 16px;
+      border-bottom-right-radius: 4px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .ke-founder {
+      background: var(--orange-lt);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--orange);
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .ke-close {
+      width: 100%;
+      background: var(--orange);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .ke-close:hover { background: #d94e1a; }
+
     /* ── Responsive ── */
     @media (max-width: 580px) {
       .topbar { padding: 12px 16px; }
@@ -829,6 +972,51 @@
         <span class="live-dot"></span>
         Live · Неделя 1 / 3
       </div>
+    </div>
+  </div>
+
+  <!-- КЭ Easter Egg -->
+  <button class="ke-fab" onclick="openKE()">КЭ ⚡</button>
+
+  <div class="ke-overlay" id="keOverlay" onclick="closeKEOnOverlay(event)">
+    <div class="ke-card">
+      <button class="modal-close" onclick="closeKE()" style="position:absolute;top:16px;right:16px">✕</button>
+
+      <div class="ke-header">
+        <div class="ke-question">Что такое <em>КЭ</em>?</div>
+      </div>
+
+      <div class="ke-chat">
+
+        <div class="ke-msg">
+          <div class="ke-avatar">🙋</div>
+          <div class="ke-bubble"><strong>Красные Эгегей!</strong> 🔴😂</div>
+        </div>
+
+        <div class="ke-msg right">
+          <div class="ke-avatar">🙋‍♀️</div>
+          <div class="ke-bubble">Нет-нет, это точно <strong>Килограммы Эндорфинов</strong> 🧪</div>
+        </div>
+
+        <div class="ke-msg">
+          <div class="ke-avatar">🧑</div>
+          <div class="ke-bubble">Вы оба не правы — <strong>Квасные Эксперты</strong>, очевидно 🍺</div>
+        </div>
+
+        <div class="ke-msg right">
+          <div class="ke-avatar">👩</div>
+          <div class="ke-bubble">Стоп, я знаю! <strong>Контрольные Эдыницы</strong> 🤓</div>
+        </div>
+
+        <div class="ke-msg">
+          <div class="ke-avatar">⚡</div>
+          <div class="ke-bubble reveal">КЭ = <strong>Километры Энергии</strong> 🚀<br>Цель — 300 КЭ за неделю. Теперь знают все — и фаундер тоже 😄</div>
+        </div>
+
+      </div>
+
+
+      <button class="ke-close" onclick="closeKE()">Всё ясно, иду за своими КЭ! ⚡</button>
     </div>
   </div>
 
@@ -1183,6 +1371,19 @@
       };
       tick();
       timer = setInterval(tick, 1000);
+    }
+
+    /* ── КЭ easter egg ── */
+    function openKE() {
+      document.getElementById('keOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeKE() {
+      document.getElementById('keOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeKEOnOverlay(e) {
+      if (e.target === document.getElementById('keOverlay')) closeKE();
     }
 
     /* ── Diary ── */
