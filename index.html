@@ -422,6 +422,70 @@
     }
     .refresh-btn:active { transform: scale(0.97); }
 
+    /* ── Participants table ── */
+    .participants-wrap { margin-bottom: 52px; }
+
+    .participants-list {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .p-row {
+      display: grid;
+      grid-template-columns: 40px 1fr auto auto;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 20px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .p-row:last-child { border-bottom: none; }
+    .p-row:hover { background: var(--bg); }
+    .p-row.top3 { background: var(--orange-lt); }
+    .p-row.top3:hover { background: var(--orange-mid); }
+
+    .p-rank {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-dim);
+      text-align: center;
+    }
+    .p-rank.r1 { color: var(--orange); font-size: 18px; }
+    .p-rank.r2 { color: #9CA3AF; font-size: 16px; }
+    .p-rank.r3 { color: #CD7F32; font-size: 15px; }
+
+    .p-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .p-team-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+      color: white;
+    }
+
+    .p-score {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .p-score span {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-dim);
+    }
+
     /* ── Responsive ── */
     @media (max-width: 580px) {
       .topbar { padding: 12px 16px; }
@@ -506,17 +570,33 @@
 
     function extractData(rows) {
       let total = 0;
-      let memberCount = 0;
-      if (rows[0]) memberCount = rows[0].slice(1).filter(c => c && c.replace(/\s/,'')).length;
+      // participant names from header row (skip first col)
+      const names = (rows[0] || []).slice(1).map(n => n.trim());
+      const memberCount = names.filter(n => n).length;
+      // accumulate scores across all СУММЫ rows
+      const scores = new Array(names.length).fill(0);
+
       for (const row of rows) {
-        if ((row[0]||'').trim() === 'ИТОГ НЕДЕЛИ') {
+        const key = (row[0] || '').trim();
+        if (key === 'ИТОГ НЕДЕЛИ') {
           for (let i = 1; i < row.length; i++) {
             const v = parseFloat(row[i]);
             if (!isNaN(v) && v > 0) { total = v; break; }
           }
         }
+        if (key === 'СУММЫ') {
+          for (let i = 0; i < names.length; i++) {
+            const v = parseFloat(row[i + 1]);
+            if (!isNaN(v)) scores[i] += v;
+          }
+        }
       }
-      return { total, memberCount };
+
+      const participants = names
+        .map((name, i) => ({ name, score: scores[i] }))
+        .filter(p => p.name && p.score > 0);
+
+      return { total, memberCount, participants };
     }
 
     async function fetchTeam(team) {
@@ -623,6 +703,32 @@
           </div>
         </div>`;
 
+      /* Participants leaderboard */
+      const allParticipants = sorted.flatMap(t =>
+        (t.participants || []).map(p => ({ ...p, teamName: t.name, teamColor: t.color, teamEmoji: t.emoji }))
+      ).sort((a, b) => b.score - a.score);
+
+      const rankIcon = r => r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : r;
+      const rankCls  = r => r === 1 ? 'r1' : r === 2 ? 'r2' : r === 3 ? 'r3' : '';
+
+      const participantsHTML = allParticipants.length === 0 ? '' : `
+        <div class="participants-wrap">
+          <div class="section-heading">Личный рейтинг участников</div>
+          <div class="participants-list">
+            ${allParticipants.map((p, i) => {
+              const rank = i + 1;
+              const top3 = rank <= 3;
+              return `
+                <div class="p-row ${top3 ? 'top3' : ''}">
+                  <div class="p-rank ${rankCls(rank)}">${rankIcon(rank)}</div>
+                  <div class="p-name">${p.name}</div>
+                  <div class="p-team-badge" style="background:${p.teamColor}">${p.teamEmoji} ${p.teamName}</div>
+                  <div class="p-score">${p.score} <span>КЭ</span></div>
+                </div>`;
+            }).join('')}
+          </div>
+        </div>`;
+
       /* Footer */
       const timeStr = updatedAt.toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit' });
       const footerHTML = `
@@ -632,7 +738,7 @@
           <button class="refresh-btn" onclick="reload()">↻ Обновить сейчас</button>
         </div>`;
 
-      document.getElementById('app').innerHTML = podiumHTML + cardsHTML + footerHTML;
+      document.getElementById('app').innerHTML = podiumHTML + cardsHTML + participantsHTML + footerHTML;
 
       requestAnimationFrame(() => requestAnimationFrame(() => {
         document.querySelectorAll('.bar-fill').forEach(el => { el.style.width = el.dataset.pct + '%'; });
