@@ -491,6 +491,158 @@
       color: var(--text-dim);
     }
 
+    /* ── Join button ── */
+    .join-btn {
+      background: var(--orange);
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .join-btn:hover { background: #d94e1a; }
+    .join-btn:active { transform: scale(0.97); }
+
+    /* ── Modal overlay ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px;
+      max-width: 560px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+      animation: modal-in 0.25s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes modal-in {
+      from { opacity: 0; transform: scale(0.94) translateY(12px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: var(--bg);
+      border: none;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-mid);
+      transition: background 0.15s;
+    }
+    .modal-close:hover { background: var(--border); }
+
+    .modal-title {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .modal-title em { font-style: normal; color: var(--orange); }
+    .modal-sub {
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    /* ── Team pick cards ── */
+    .team-pick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 480px) { .team-pick-grid { grid-template-columns: 1fr; } }
+
+    .team-pick-card {
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.18s;
+      position: relative;
+    }
+    .team-pick-card:hover { border-color: var(--tc); background: color-mix(in srgb, var(--tc) 5%, white); }
+    .team-pick-card.selected {
+      border-color: var(--tc);
+      background: color-mix(in srgb, var(--tc) 8%, white);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--tc) 20%, transparent);
+    }
+    .team-pick-card.selected::after {
+      content: '✓';
+      position: absolute;
+      top: 10px; right: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--tc);
+    }
+    .pick-emoji { font-size: 28px; margin-bottom: 8px; }
+    .pick-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--tc);
+      margin-bottom: 4px;
+    }
+    .pick-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    /* ── Join action ── */
+    .join-action {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .join-action.visible { display: flex; }
+    .join-action-label {
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+    .join-action-label strong { color: var(--text); }
+    .join-sheet-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--orange);
+      color: white;
+      border: none;
+      padding: 13px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.18s;
+    }
+    .join-sheet-btn:hover { background: #d94e1a; }
+
     /* ── Responsive ── */
     @media (max-width: 580px) {
       .topbar { padding: 12px 16px; }
@@ -507,9 +659,51 @@
       <div class="brand-logo">⚡</div>
       <div class="brand-name">Сезонный <span>курс</span></div>
     </div>
-    <div class="live-badge">
-      <span class="live-dot"></span>
-      Live · Неделя 1 / 3
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="join-btn" onclick="openModal()">Вступить в команду</button>
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        Live · Неделя 1 / 3
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal" onclick="closeOnOverlay(event)">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-title">Выбери <em>свою команду</em></div>
+      <div class="modal-sub">Нажми на карточку — узнай про команду и запишись в таблицу</div>
+
+      <div class="team-pick-grid" id="teamPickGrid">
+        <div class="team-pick-card" style="--tc:#F15A24" onclick="selectTeam(0)">
+          <div class="pick-emoji">🔄</div>
+          <div class="pick-name">#Ямыназаменах</div>
+          <div class="pick-desc">Любишь адаптировать тренировки под себя? Делаешь замены — и это твоя суперсила.</div>
+        </div>
+        <div class="team-pick-card" style="--tc:#16A34A" onclick="selectTeam(1)">
+          <div class="pick-emoji">🎯</div>
+          <div class="pick-name">#всвоемтемпе</div>
+          <div class="pick-desc">Не гонишься за рекордами, но стабильно идёшь вперёд. Главное — твой ритм.</div>
+        </div>
+        <div class="team-pick-card" style="--tc:#2563EB" onclick="selectTeam(2)">
+          <div class="pick-emoji">🤖</div>
+          <div class="pick-name">#киборги</div>
+          <div class="pick-desc">Тренируешься как машина: системно, точно, без отмазок. Режим — это стиль жизни.</div>
+        </div>
+        <div class="team-pick-card" style="--tc:#DC2626" onclick="selectTeam(3)">
+          <div class="pick-emoji">🔥</div>
+          <div class="pick-name">#вкрасном</div>
+          <div class="pick-desc">Всегда на максимуме. Каждая тренировка — до отказа. Красная зона — твоя зона комфорта.</div>
+        </div>
+      </div>
+
+      <div class="join-action" id="joinAction">
+        <div class="join-action-label">Ты выбрала команду <strong id="selectedTeamName"></strong> — открой таблицу и добавь своё имя в первую свободную колонку 👇</div>
+        <a class="join-sheet-btn" id="joinSheetBtn" href="#" target="_blank">
+          📋 Открыть таблицу команды
+        </a>
+      </div>
     </div>
   </div>
 
@@ -771,6 +965,36 @@
       tick();
       timer = setInterval(tick, 1000);
     }
+
+    /* ── Modal ── */
+    const TEAM_SHEETS = [
+      'https://docs.google.com/spreadsheets/d/1ljggmZ12vmpTQTa7vwJCIwlXAvorXhJ0AaSeRELTOQI/edit',
+      'https://docs.google.com/spreadsheets/d/1-8dvHZxvt-MtFCg4kTu_80URgR7lyfn-bnaAurcHvos/edit',
+      'https://docs.google.com/spreadsheets/d/1QkqKzdzbOT0uiL46p3mfJ89spAttRJR05y-fxdOSeN4/edit',
+      'https://docs.google.com/spreadsheets/d/1An9xmoEIOr51aPrUcd3MnA_3M0-eBsAYQQVlO8m7i2g/edit'
+    ];
+    const TEAM_NAMES = ['#Ямыназаменах','#всвоемтемпе','#киборги','#вкрасном'];
+
+    function openModal() {
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeOnOverlay(e) {
+      if (e.target === document.getElementById('modal')) closeModal();
+    }
+    function selectTeam(idx) {
+      document.querySelectorAll('.team-pick-card').forEach((c, i) => {
+        c.classList.toggle('selected', i === idx);
+      });
+      document.getElementById('selectedTeamName').textContent = TEAM_NAMES[idx];
+      document.getElementById('joinSheetBtn').href = TEAM_SHEETS[idx];
+      document.getElementById('joinAction').classList.add('visible');
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     /* ── Load ── */
     async function reload() {
