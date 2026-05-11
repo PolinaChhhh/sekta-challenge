@@ -427,6 +427,139 @@
     }
     .refresh-btn:active { transform: scale(0.97); }
 
+    /* ── Diary modal ── */
+    .diary-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .diary-overlay.open { display: flex; }
+
+    .diary-modal {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 28px;
+      max-width: 480px;
+      width: 100%;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+      animation: modal-in 0.25s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    .diary-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .diary-title { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; }
+    .diary-title span { color: var(--orange); }
+    .diary-team-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 100px;
+      color: white;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    .diary-form {
+      background: var(--bg);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .diary-form-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .diary-textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      resize: none;
+      background: var(--white);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+      line-height: 1.5;
+    }
+    .diary-textarea:focus { border-color: var(--orange); }
+    .diary-save-btn {
+      background: var(--orange);
+      color: white;
+      border: none;
+      padding: 11px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .diary-save-btn:hover { background: #d94e1a; }
+    .diary-save-btn:disabled { background: #ccc; cursor: default; }
+
+    .diary-entries {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .diary-entries-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 2px;
+    }
+    .diary-entry {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 12px 14px;
+      border-left: 3px solid var(--orange);
+    }
+    .diary-entry-time {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+    .diary-entry-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .diary-empty {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 13px;
+      padding: 20px 0;
+    }
+    .diary-loading-entries {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 13px;
+      padding: 10px 0;
+    }
+
     /* ── Participants table ── */
     .participants-wrap { margin-bottom: 52px; }
 
@@ -469,6 +602,13 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    .p-name-link {
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .p-name-link:hover { color: var(--orange); }
+    .p-diary-icon { font-size: 12px; opacity: 0.4; }
+    .p-name-link:hover .p-diary-icon { opacity: 1; }
 
     .p-team-badge {
       font-size: 11px;
@@ -688,6 +828,30 @@
       <div class="live-badge">
         <span class="live-dot"></span>
         Live · Неделя 1 / 3
+      </div>
+    </div>
+  </div>
+
+  <!-- Diary Modal -->
+  <div class="diary-overlay" id="diaryModal" onclick="closeDiaryOnOverlay(event)">
+    <div class="diary-modal">
+      <div class="diary-header">
+        <div>
+          <div class="diary-title">Дневник <span id="diaryName"></span></div>
+          <span class="diary-team-badge" id="diaryTeamBadge"></span>
+        </div>
+        <button class="modal-close" onclick="closeDiary()">✕</button>
+      </div>
+
+      <div class="diary-form">
+        <div class="diary-form-label">Новая запись</div>
+        <textarea class="diary-textarea" id="diaryText" rows="3" placeholder="Как прошёл день? Что получилось, что было сложно…"></textarea>
+        <button class="diary-save-btn" id="diarySaveBtn" onclick="saveDiaryEntry()">Сохранить запись</button>
+      </div>
+
+      <div class="diary-entries-label">Предыдущие записи</div>
+      <div class="diary-entries" id="diaryEntries">
+        <div class="diary-loading-entries">Загрузка…</div>
       </div>
     </div>
   </div>
@@ -978,7 +1142,7 @@
               return `
                 <div class="p-row ${top3 ? 'top3' : ''}">
                   <div class="p-rank ${rankCls(rank)}">${rankIcon(rank)}</div>
-                  <div class="p-name">${p.name}</div>
+                  <div class="p-name p-name-link" onclick="openDiary('${p.name.replace(/'/g,"\\'")}','${p.teamName.replace(/'/g,"\\'")}','${p.teamColor}')" title="Открыть дневник">${p.name} <span class="p-diary-icon">📓</span></div>
                   <div class="p-team-badge" style="background:${p.teamColor}">${p.teamEmoji} ${p.teamName}</div>
                   <div class="p-score">${p.score} <span>КЭ</span></div>
                 </div>`;
@@ -1019,6 +1183,87 @@
       };
       tick();
       timer = setInterval(tick, 1000);
+    }
+
+    /* ── Diary ── */
+    // Replace with your deployed Apps Script URL:
+    const DIARY_URL = 'https://script.google.com/macros/s/AKfycbxMorKkFsH4DdeBcduZH8Zui1LJlbRa_lK69TSorxWfaTCJaxsbI0N7_sWhIcagNGxqZQ/exec';
+
+    let diaryCurrentName = '';
+    let diaryCurrentTeam = '';
+    let diaryCurrentColor = '';
+
+    function openDiary(name, teamName, teamColor) {
+      diaryCurrentName  = name;
+      diaryCurrentTeam  = teamName;
+      diaryCurrentColor = teamColor;
+      document.getElementById('diaryName').textContent = name;
+      const badge = document.getElementById('diaryTeamBadge');
+      badge.textContent = teamName;
+      badge.style.background = teamColor;
+      document.getElementById('diaryText').value = '';
+      document.getElementById('diaryModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      loadDiaryEntries(name);
+    }
+    function closeDiary() {
+      document.getElementById('diaryModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeDiaryOnOverlay(e) {
+      if (e.target === document.getElementById('diaryModal')) closeDiary();
+    }
+
+    async function loadDiaryEntries(name) {
+      const el = document.getElementById('diaryEntries');
+      el.innerHTML = '<div class="diary-loading-entries">Загружаем записи…</div>';
+      if (DIARY_URL === 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') {
+        el.innerHTML = '<div class="diary-empty">⚙️ Дневник ещё не настроен</div>';
+        return;
+      }
+      try {
+        const res = await fetch(`${DIARY_URL}?name=${encodeURIComponent(name)}`);
+        const data = await res.json();
+        if (!data.entries.length) {
+          el.innerHTML = '<div class="diary-empty">Записей пока нет — напиши первую! ✍️</div>';
+          return;
+        }
+        el.innerHTML = data.entries.map(e => {
+          const dt = new Date(e.datetime);
+          const timeStr = isNaN(dt) ? '' : dt.toLocaleString('ru-RU', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+          return `
+            <div class="diary-entry" style="border-left-color:${diaryCurrentColor}">
+              <div class="diary-entry-time">${timeStr}</div>
+              <div class="diary-entry-text">${e.text.replace(/\n/g,'<br>')}</div>
+            </div>`;
+        }).join('');
+      } catch {
+        el.innerHTML = '<div class="diary-empty">Не удалось загрузить записи</div>';
+      }
+    }
+
+    async function saveDiaryEntry() {
+      const text = document.getElementById('diaryText').value.trim();
+      if (!text) return;
+      if (DIARY_URL === 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') {
+        alert('Сначала настрой Apps Script и вставь URL в код!');
+        return;
+      }
+      const btn = document.getElementById('diarySaveBtn');
+      btn.disabled = true;
+      btn.textContent = 'Сохраняем…';
+      try {
+        await fetch(DIARY_URL, {
+          method: 'POST',
+          body: JSON.stringify({ name: diaryCurrentName, team: diaryCurrentTeam, text })
+        });
+        document.getElementById('diaryText').value = '';
+        await loadDiaryEntries(diaryCurrentName);
+      } catch {
+        alert('Ошибка сохранения, попробуй ещё раз');
+      }
+      btn.disabled = false;
+      btn.textContent = 'Сохранить запись';
     }
 
     /* ── Modal ── */
