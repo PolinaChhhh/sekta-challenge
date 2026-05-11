@@ -221,6 +221,11 @@
       border-color: #D4A27A;
       background: #FEF6EE;
     }
+    .podium-slot.fourth .podium-block {
+      border-color: #D1D5DB;
+      background: #F3F4F6;
+    }
+    .podium-slot.fourth .podium-medal { font-size: 20px; }
 
     /* ── Cards ── */
     .cards-wrap { margin-bottom: 52px; }
@@ -632,15 +637,13 @@
     function render(sorted, updatedAt) {
       const maxPts = sorted[0]?.total || 1;
 
-      /* Podium */
+      /* Podium — all 4 teams, order: 2nd · 1st · 3rd · 4th */
       let podiumHTML = '';
       if (sorted.length >= 2) {
-        const order = sorted.length >= 3
-          ? [sorted[1], sorted[0], sorted[2]]
-          : [sorted[0], sorted[1]];
-        const heights  = [164, 220, 124];
-        const medals   = ['🥈','🥇','🥉'];
-        const slotCls  = ['second','first','third'];
+        const order = [sorted[1], sorted[0], sorted[2], sorted[3]].filter(Boolean);
+        const heights  = [175, 230, 135, 90];
+        const medals   = ['🥈','🥇','🥉','4️⃣'];
+        const slotCls  = ['second','first','third','fourth'];
 
         podiumHTML = `
           <div class="podium-wrap">
