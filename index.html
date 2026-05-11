@@ -597,17 +597,41 @@
       font-weight: 800;
       color: var(--tc);
     }
-    .pick-emoji { font-size: 28px; margin-bottom: 8px; }
+    .pick-avatars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+    .pick-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid white;
+      margin-left: -6px;
+      flex-shrink: 0;
+    }
+    .pick-avatars .pick-avatar:first-child { margin-left: 0; }
+
     .pick-name {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 800;
       color: var(--tc);
-      margin-bottom: 4px;
+      margin-bottom: 3px;
+    }
+    .pick-pacers {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-bottom: 8px;
     }
     .pick-desc {
       font-size: 12px;
-      color: var(--text-dim);
-      line-height: 1.4;
+      color: var(--text-mid);
+      line-height: 1.5;
     }
 
     /* ── Join action ── */
@@ -676,26 +700,50 @@
       <div class="modal-sub">Нажми на карточку — узнай про команду и запишись в таблицу</div>
 
       <div class="team-pick-grid" id="teamPickGrid">
+
         <div class="team-pick-card" style="--tc:#F15A24" onclick="selectTeam(0)">
-          <div class="pick-emoji">🔄</div>
+          <div class="pick-avatars">
+            <div class="pick-avatar" style="background:#F15A24">В</div>
+            <div class="pick-avatar" style="background:#c94a1e">Д</div>
+          </div>
           <div class="pick-name">#Ямыназаменах</div>
-          <div class="pick-desc">Любишь адаптировать тренировки под себя? Делаешь замены — и это твоя суперсила.</div>
+          <div class="pick-pacers">пейсеры: Вика, Даша</div>
+          <div class="pick-desc">Про умный подход: делать эффективно, но безопасно. Здесь не терпят боль, а адаптируют тренировки под себя.</div>
         </div>
+
         <div class="team-pick-card" style="--tc:#16A34A" onclick="selectTeam(1)">
-          <div class="pick-emoji">🎯</div>
+          <div class="pick-avatars">
+            <div class="pick-avatar" style="background:#16A34A">С</div>
+            <div class="pick-avatar" style="background:#15803d">З</div>
+            <div class="pick-avatar" style="background:#166534">Д</div>
+          </div>
           <div class="pick-name">#всвоемтемпе</div>
-          <div class="pick-desc">Не гонишься за рекордами, но стабильно идёшь вперёд. Главное — твой ритм.</div>
+          <div class="pick-pacers">пейсеры: Стася, Зарина, Денис</div>
+          <div class="pick-desc">Про мягкий подход: всего 5 минут в день, чтобы позаботиться о себе. Когда достаточно «Чёрного ящика» или «Разминки».</div>
         </div>
+
         <div class="team-pick-card" style="--tc:#2563EB" onclick="selectTeam(2)">
-          <div class="pick-emoji">🤖</div>
+          <div class="pick-avatars">
+            <div class="pick-avatar" style="background:#2563EB">А</div>
+            <div class="pick-avatar" style="background:#1d4ed8">Н</div>
+          </div>
           <div class="pick-name">#киборги</div>
-          <div class="pick-desc">Тренируешься как машина: системно, точно, без отмазок. Режим — это стиль жизни.</div>
+          <div class="pick-pacers">пейсеры: Андрей, Никита</div>
+          <div class="pick-desc">Про силу, дисциплину и качественную работу. Здесь как на физре, только лучше.</div>
         </div>
+
         <div class="team-pick-card" style="--tc:#DC2626" onclick="selectTeam(3)">
-          <div class="pick-emoji">🔥</div>
+          <div class="pick-avatars">
+            <div class="pick-avatar" style="background:#DC2626">О</div>
+            <div class="pick-avatar" style="background:#b91c1c">Д</div>
+            <div class="pick-avatar" style="background:#991b1b">Т</div>
+            <div class="pick-avatar" style="background:#7f1d1d">+3</div>
+          </div>
           <div class="pick-name">#вкрасном</div>
-          <div class="pick-desc">Всегда на максимуме. Каждая тренировка — до отказа. Красная зона — твоя зона комфорта.</div>
+          <div class="pick-pacers">пейсеры: Оля, Дмитрий, Таня, Егор, Даша, Саша</div>
+          <div class="pick-desc">Про новый опыт, необычные ощущения и выход за рамки привычного. Здесь можно попробовать то, что раньше казалось странным.</div>
         </div>
+
       </div>
 
       <div class="join-action" id="joinAction">
