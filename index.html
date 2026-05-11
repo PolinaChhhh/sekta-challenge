@@ -951,11 +951,54 @@
     .ke-close:hover { background: #d94e1a; }
 
     /* ── Responsive ── */
-    @media (max-width: 580px) {
-      .topbar { padding: 12px 16px; }
-      .podium { gap: 4px; }
-      .podium-pts { font-size: 20px; }
-      .score-big { font-size: 40px; }
+    @media (max-width: 600px) {
+      /* Topbar */
+      .topbar { padding: 10px 14px; gap: 8px; }
+      .brand-name { display: none; }
+      .join-btn { padding: 7px 13px; font-size: 12px; }
+      .live-badge { font-size: 10px; padding: 4px 10px; }
+
+      /* Container */
+      .container { padding: 28px 14px 60px; }
+
+      /* Header */
+      h1 { letter-spacing: -1.5px; }
+
+      /* Podium → 2×2 grid */
+      .podium {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        height: auto;
+      }
+      .podium-slot { max-width: 100%; }
+      .podium-block { height: 80px !important; font-size: 24px; border-radius: 10px 10px 0 0; }
+      .podium-pts { font-size: 18px; }
+      .podium-medal { font-size: 20px; margin-bottom: 4px; }
+      .podium-team-name { font-size: 11px; }
+
+      /* Team cards */
+      .teams-grid { grid-template-columns: 1fr; }
+      .score-big { font-size: 42px; }
+
+      /* Participants */
+      .p-row { grid-template-columns: 32px 1fr auto; gap: 8px; padding: 10px 14px; }
+      .p-team-badge { display: none; }
+      .p-score { font-size: 13px; }
+      .p-rank { font-size: 12px; }
+      .p-name { font-size: 13px; }
+
+      /* Modals */
+      .modal { padding: 20px 16px; border-radius: 18px; }
+      .modal-title { font-size: 18px; }
+      .team-pick-grid { grid-template-columns: 1fr; }
+      .diary-modal { padding: 20px 16px; border-radius: 18px; }
+      .diary-title { font-size: 16px; }
+      .ke-card { padding: 20px 16px; border-radius: 18px; }
+      .ke-question { font-size: 17px; }
+
+      /* КЭ button */
+      .ke-fab { bottom: 16px; right: 16px; padding: 9px 15px; font-size: 13px; }
     }
   </style>
 </head>
