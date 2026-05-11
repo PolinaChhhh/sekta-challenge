@@ -964,18 +964,13 @@
       /* Header */
       h1 { letter-spacing: -1.5px; }
 
-      /* Podium → 2×2 grid */
-      .podium {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        height: auto;
-      }
-      .podium-slot { max-width: 100%; }
-      .podium-block { height: 80px !important; font-size: 24px; border-radius: 10px 10px 0 0; }
-      .podium-pts { font-size: 18px; }
-      .podium-medal { font-size: 20px; margin-bottom: 4px; }
-      .podium-team-name { font-size: 11px; }
+      /* Podium → одна строка, компактно */
+      .podium { gap: 4px; }
+      .podium-block { height: 60px !important; font-size: 20px; }
+      .podium-info { margin-bottom: 6px; padding: 0 2px; }
+      .podium-pts { font-size: 13px; letter-spacing: -0.5px; }
+      .podium-medal { font-size: 16px; margin-bottom: 2px; }
+      .podium-team-name { font-size: 10px; margin-bottom: 2px; }
 
       /* Team cards */
       .teams-grid { grid-template-columns: 1fr; }
