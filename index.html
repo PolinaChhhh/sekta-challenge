@@ -1142,8 +1142,14 @@
       /* Topbar */
       .topbar { padding: 10px 14px; gap: 8px; }
       .brand-name { display: none; }
+      .brand-bootcamp { display: none; } /* hide Bootcamp 2026 on mobile */
       .join-btn { padding: 7px 13px; font-size: 12px; }
-      .live-badge { font-size: 10px; padding: 4px 10px; }
+      .live-badge { font-size: 10px; padding: 4px 10px; white-space: nowrap; }
+      .live-text-full { display: none; }
+
+      /* Podium tabs — 3 in a row */
+      .podium-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+      .ptab { text-align: center; padding: 6px 4px; font-size: 10px; letter-spacing: 0; border-radius: 10px; }
 
       /* Container */
       .container { padding: 28px 14px 60px; }
@@ -1153,7 +1159,10 @@
 
       /* Podium → одна строка, компактно */
       .podium { gap: 4px; }
-      .podium-block { height: 60px !important; font-size: 20px; }
+      .podium-slot.first  .podium-block { height: 120px !important; font-size: 20px; }
+      .podium-slot.second .podium-block { height: 90px  !important; font-size: 20px; }
+      .podium-slot.third  .podium-block { height: 70px  !important; font-size: 20px; }
+      .podium-slot.fourth .podium-block { height: 50px  !important; font-size: 20px; }
       .podium-info { margin-bottom: 6px; padding: 0 2px; }
       .podium-pts { font-size: 13px; letter-spacing: -0.5px; }
       .podium-medal { font-size: 16px; margin-bottom: 2px; }
@@ -1191,7 +1200,7 @@
       <div class="brand-logo">⚡</div>
       <div style="display:flex;flex-direction:column;gap:1px">
         <div class="brand-name">Сезонный <span>курс</span></div>
-        <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:var(--text-dim);text-transform:uppercase">Bootcamp 2026</div>
+        <div class="brand-bootcamp" style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:var(--text-dim);text-transform:uppercase">Bootcamp 2026</div>
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
@@ -1199,7 +1208,7 @@
       <button class="join-btn" onclick="openModal()">Вступить в команду</button>
       <div class="live-badge">
         <span class="live-dot"></span>
-        Live · Неделя 1 / 3
+        <span class="live-text-full">Live · </span>Неделя 1 / 3
       </div>
     </div>
   </div>
