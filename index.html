@@ -1204,7 +1204,7 @@
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
-      <button class="join-btn" style="background:var(--bg);color:var(--text);border:1.5px solid var(--border);display:none" onclick="openDict()">📖 Словарь КЭ</button>
+      <button class="join-btn" style="background:var(--bg);color:var(--text);border:1.5px solid var(--border)" onclick="openDict()">📖 Словарь КЭ</button>
       <button class="join-btn" onclick="openModal()">Вступить в команду</button>
       <div class="live-badge">
         <span class="live-dot"></span>
@@ -1226,70 +1226,30 @@
       <div class="dict-body">
 
         <div class="dict-item">
-          <div class="dict-pts">2 КЭ</div>
-          <div class="dict-content">
-            <div class="dict-name">📸 Фото ДО</div>
-          </div>
-        </div>
-
-        <div class="dict-item">
           <div class="dict-pts">1 КЭ</div>
           <div class="dict-content">
-            <div class="dict-name">🔄 Вернулся после перерыва</div>
-            <div class="dict-note">Вернулся в спорт на буткемп или продолжил курс после болезни/пропуска</div>
-          </div>
-        </div>
-
-        <div class="dict-item">
-          <div class="dict-pts many">15 КЭ</div>
-          <div class="dict-content">
-            <div class="dict-name">🎬 Снял ролик по неделе</div>
-          </div>
-        </div>
-
-        <div class="dict-item">
-          <div class="dict-pts">3 КЭ</div>
-          <div class="dict-content">
-            <div class="dict-name">🧘 Наступил на коврик 3 раза <span style="font-weight:400;font-size:12px;color:var(--text-mid)">(1 КЭ × 3)</span></div>
-            <div class="dict-q">За каждую выполненную тренировку (УВ, ОВ и ЧЯ) или когда в день делал один/два/три подхода? Если все три трени за один подход — сколько галочек?</div>
-          </div>
-        </div>
-
-        <div class="dict-item">
-          <div class="dict-pts">3 КЭ</div>
-          <div class="dict-content">
-            <div class="dict-name">🌅 Утренняя треня</div>
+            <div class="dict-name">🧘 Наступил на коврик</div>
+            <div class="dict-note">Не делал тренировку, но прислал фото со стойкой на коврике. Для тех, у кого совсем нет сил, но хочется оставаться в «Забеге»</div>
           </div>
         </div>
 
         <div class="dict-item">
           <div class="dict-pts">2 КЭ</div>
           <div class="dict-content">
-            <div class="dict-name">🔥 Разминка</div>
-            <div class="dict-note">Разминка понедельника или любая дополнительная, не входящая в тренировку</div>
+            <div class="dict-name">🔥 Разминка / 🧊 Заминка</div>
+            <div class="dict-note">Из курса (первый день), можно повторять каждый день. Если сделал обе — 4 КЭ</div>
           </div>
         </div>
 
-        <div class="dict-item">
-          <div class="dict-pts">2 КЭ</div>
-          <div class="dict-content">
-            <div class="dict-name">🧊 Заминка</div>
-            <div class="dict-note">Заминка понедельника или любая дополнительная, не входящая в тренировку</div>
-          </div>
+        <div style="background:#F5F4F2;border-radius:10px;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-dim);margin:4px 0 2px">
+          Основная тренировка — выбери один вариант
         </div>
 
         <div class="dict-item">
           <div class="dict-pts">5 КЭ</div>
           <div class="dict-content">
-            <div class="dict-name">📷 Основная треня с фото</div>
-            <div class="dict-q">Если снял и фото и видео — ставим две галки? Обязательно ли выкладывать в чат?</div>
-          </div>
-        </div>
-
-        <div class="dict-item">
-          <div class="dict-pts">10 КЭ</div>
-          <div class="dict-content">
-            <div class="dict-name">🎥 Основная треня с видео</div>
+            <div class="dict-name">📷 Основная с фото</div>
+            <div class="dict-note">Сделал основной вариант и прислал фото в чат</div>
           </div>
         </div>
 
@@ -1297,46 +1257,55 @@
           <div class="dict-pts">5 КЭ</div>
           <div class="dict-content">
             <div class="dict-name">🔀 Основная с заменами</div>
-            <div class="dict-q">Ставим галку если заменил хоть одно упражнение на лёгкое/сложное?</div>
+            <div class="dict-note">Основная тренировка на заменах</div>
+          </div>
+        </div>
+
+        <div class="dict-item">
+          <div class="dict-pts many">10 КЭ</div>
+          <div class="dict-content">
+            <div class="dict-name">🎥 Основная с видео</div>
+            <div class="dict-note">Основной вариант или замены — и видео в чате</div>
+          </div>
+        </div>
+
+        <div class="dict-item">
+          <div class="dict-pts">3 КЭ</div>
+          <div class="dict-content">
+            <div class="dict-name">🏃 Прогулка / бег</div>
+            <div class="dict-note">Целенаправленно вышел на пробежку или прогулку (не возвращение с работы)</div>
+          </div>
+        </div>
+
+        <div class="dict-item">
+          <div class="dict-pts">3 КЭ</div>
+          <div class="dict-content">
+            <div class="dict-name">🏋️ Тренировка в зале</div>
+            <div class="dict-note">Из курса или своя</div>
+          </div>
+        </div>
+
+        <div class="dict-item">
+          <div class="dict-pts">1 КЭ</div>
+          <div class="dict-content">
+            <div class="dict-name">👟 Надел кроссовки</div>
+            <div class="dict-note">Прям надел, чтобы куда-то пойти — на работу, в магазин — и прислал фото в чат</div>
           </div>
         </div>
 
         <div class="dict-item">
           <div class="dict-pts">2 КЭ</div>
           <div class="dict-content">
-            <div class="dict-name">📦 Черный ящик</div>
+            <div class="dict-name">🥗 Приготовил по меню</div>
+            <div class="dict-note">За одно блюдо из меню</div>
           </div>
         </div>
 
         <div class="dict-item">
-          <div class="dict-pts">9 КЭ</div>
+          <div class="dict-pts">1 КЭ</div>
           <div class="dict-content">
-            <div class="dict-name">🏃 Прогулка или бег 3 раза <span style="font-weight:400;font-size:12px;color:var(--text-mid)">(3 КЭ × 3)</span></div>
-            <div class="dict-q">Если гуляем трижды в день — три галки?</div>
-          </div>
-        </div>
-
-        <div class="dict-item">
-          <div class="dict-pts">3 КЭ</div>
-          <div class="dict-content">
-            <div class="dict-name">🏋️ Треня в зале</div>
-            <div class="dict-q">Это доп. треня не из секты или любая тренировка в зале (даже секта)?</div>
-          </div>
-        </div>
-
-        <div class="dict-item">
-          <div class="dict-pts">3 КЭ</div>
-          <div class="dict-content">
-            <div class="dict-name">👟 Надел кроссовки 3 раза <span style="font-weight:400;font-size:12px;color:var(--text-mid)">(1 КЭ × 3)</span></div>
-            <div class="dict-q">Что значит «надел кроссовки»? Пошёл гулять? На тренировку? В магазин? Или считаем все разы?</div>
-          </div>
-        </div>
-
-        <div class="dict-item">
-          <div class="dict-pts">6 КЭ</div>
-          <div class="dict-content">
-            <div class="dict-name">🥗 Приготовил по меню 3 раза <span style="font-weight:400;font-size:12px;color:var(--text-mid)">(2 КЭ × 3)</span></div>
-            <div class="dict-note">По галочке за завтрак, обед и ужин</div>
+            <div class="dict-name">🔄 Вернулся после перерыва</div>
+            <div class="dict-note">Пропустил день на буткемпе, но вернулся на курс</div>
           </div>
         </div>
 
