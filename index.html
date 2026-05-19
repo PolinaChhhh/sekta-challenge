@@ -1208,7 +1208,7 @@
       <button class="join-btn" onclick="openModal()">Вступить в команду</button>
       <div class="live-badge">
         <span class="live-dot"></span>
-        <span class="live-text-full">Live · </span>Неделя 1 / 3
+        <span class="live-text-full">Live · </span>Неделя 2 / 3
       </div>
     </div>
   </div>
@@ -1457,24 +1457,28 @@
     const TEAMS = [
       {
         id: '1ljggmZ12vmpTQTa7vwJCIwlXAvorXhJ0AaSeRELTOQI',
+        gid: '55173746',
         name: '#Ямыназаменах',
         emoji: '🔄',
         color: '#F15A24'   /* course orange */
       },
       {
         id: '1-8dvHZxvt-MtFCg4kTu_80URgR7lyfn-bnaAurcHvos',
+        gid: '1851139578',
         name: '#всвоемтемпе',
         emoji: '🎯',
         color: '#16A34A'
       },
       {
         id: '1QkqKzdzbOT0uiL46p3mfJ89spAttRJR05y-fxdOSeN4',
+        gid: '1587532885',
         name: '#киборги',
         emoji: '🤖',
         color: '#2563EB'
       },
       {
         id: '1An9xmoEIOr51aPrUcd3MnA_3M0-eBsAYQQVlO8m7i2g',
+        gid: '1935079',
         name: '#вкрасном',
         emoji: '🔥',
         color: '#DC2626'
@@ -1552,7 +1556,7 @@
     }
 
     async function fetchTeam(team) {
-      const url = `https://docs.google.com/spreadsheets/d/${team.id}/export?format=csv&gid=0`;
+      const url = `https://docs.google.com/spreadsheets/d/${team.id}/export?format=csv&gid=${team.gid}`;
       try {
         const res = await fetch(url, { redirect:'follow' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -1573,7 +1577,7 @@
       return `<span class="rank-tag ${cls}">${label}</span>`;
     }
 
-    const GOAL = 300;
+    const GOAL = 1000;
 
     /* ── Render ── */
     function keHeight(n) {
