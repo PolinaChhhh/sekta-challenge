@@ -1625,7 +1625,14 @@
       if (n >= 5642) return `выше Эльбруса ⛰`;
       if (n >= 3776) return `выше Фудзиямы 🗻`;
       if (n >= 1642) return `${(n / 1642).toFixed(1)}× глубина Байкала 🌊`;
-      if (currentWeek === 1) return `${n.toLocaleString('ru')} пицц диаметром 30 см 🍕`;
+      if (currentWeek === 1) {
+        if (n >= 7500) return `долетели до Нью-Йорка ✈️`;
+        if (n >= 3500) return `долетели до Дубая ✈️`;
+        if (n >= 2500) return `долетели до Лондона ✈️`;
+        if (n >= 1600) return `доехали до Берлина 🚂`;
+        if (n >= 634)  return `${(n/634).toFixed(1)}× Москва–Питер 🚄`;
+        return `${n} км вместе 🏃`;
+      }
       if (n >= 540)  return `${Math.round(n / 540)} Останкинских башен 🗼`;
       return `${Math.round(n / 417)} Статуи Свободы 🗽`;
     }
