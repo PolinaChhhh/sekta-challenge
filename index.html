@@ -1625,8 +1625,9 @@
       if (n >= 5642) return `выше Эльбруса ⛰`;
       if (n >= 3776) return `выше Фудзиямы 🗻`;
       if (n >= 1642) return `${(n / 1642).toFixed(1)}× глубина Байкала 🌊`;
-      if (n >= 540)  return `${n.toLocaleString('ru')} пицц диаметром 30 см 🍕`;
-      return `${n.toLocaleString('ru')} пицц диаметром 30 см 🍕`;
+      if (currentWeek === 1) return `${n.toLocaleString('ru')} пицц диаметром 30 см 🍕`;
+      if (n >= 540)  return `${Math.round(n / 540)} Останкинских башен 🗼`;
+      return `${Math.round(n / 417)} Статуи Свободы 🗽`;
     }
     function keHeat(n) {
       if (n >= 15000000) return `горячее ядра Солнца 🌟`;
