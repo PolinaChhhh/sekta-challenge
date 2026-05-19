@@ -1457,7 +1457,7 @@
     <header>
       <div class="week-pill">Командный чемпионат</div>
       <h1>Кто лидирует<br><em>сегодня?</em></h1>
-      <p class="subtitle">Цель — 300 КЭ за неделю. Данные обновляются автоматически.</p>
+      <p class="subtitle" id="goalSubtitle">Цель — 1000 КЭ за неделю. Данные обновляются автоматически.</p>
     </header>
 
     <div id="app">
@@ -1490,6 +1490,8 @@
       document.querySelector('.week-nav-btn:last-of-type').disabled  = currentWeek === WEEKS.length - 1;
       // обновляем живую точку — только на текущей неделе
       document.querySelector('.live-dot').style.display = currentWeek === WEEKS.length - 1 ? '' : 'none';
+      const sub = document.getElementById('goalSubtitle');
+      if (sub) sub.textContent = `Цель — ${w.goal} КЭ за неделю. Данные обновляются автоматически.`;
     }
 
     const TEAMS = [
