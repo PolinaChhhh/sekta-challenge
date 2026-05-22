@@ -1592,7 +1592,8 @@
         .map((name, i) => ({ name, score: scores[i] }))
         .filter(p => p.name);
 
-      return { total, memberCount, participants, totalChecks };
+      const activeCount = participants.filter(p => p.score > 0).length;
+      return { total, memberCount, participants, totalChecks, activeCount };
     }
 
     async function fetchTeam(team) {
@@ -1646,7 +1647,7 @@
 
     function sortByMode(teams, mode) {
       if (mode === 'members')  return [...teams].sort((a,b) => b.memberCount - a.memberCount);
-      if (mode === 'avg')      return [...teams].sort((a,b) => (b.total/(b.memberCount||1)) - (a.total/(a.memberCount||1)));
+      if (mode === 'avg')      return [...teams].sort((a,b) => (b.total/(b.activeCount||1)) - (a.total/(a.activeCount||1)));
       if (mode === 'active')   return [...teams].sort((a,b) => (b.totalChecks||0) - (a.totalChecks||0));
       if (mode === 'gentle')   return [...teams].sort((a,b) => a.total - b.total);
       return [...teams].sort((a,b) => b.total - a.total); // default: total
@@ -1654,7 +1655,7 @@
 
     function podiumValue(t, mode) {
       if (mode === 'members') return `${t.memberCount} участников`;
-      if (mode === 'avg')     return `${(t.total/(t.memberCount||1)).toFixed(1)} КЭ/чел`;
+      if (mode === 'avg')     return `${(t.total/(t.activeCount||1)).toFixed(1)} КЭ/чел`;
       if (mode === 'active')  return `<span>${t.totalChecks||0}</span><small>выполненных заданий</small>`;
       if (mode === 'gentle')  return `<span>${t.total.toLocaleString('ru')}</span><small>КЭ · меньше = лучше 🤍</small>`;
       return `${t.total.toLocaleString('ru')} КЭ`;
@@ -1746,7 +1747,7 @@
               const rank    = i + 1;
               const leader  = i === 0;
               const pct     = maxPts > 0 ? Math.round(t.total / maxPts * 100) : 0;
-              const avg     = t.memberCount > 0 ? (t.total / t.memberCount).toFixed(1) : '—';
+              const avg     = (t.activeCount || 0) > 0 ? (t.total / t.activeCount).toFixed(1) : '—';
               const goal    = GOAL();
               const gPct    = Math.min(Math.round(t.total / goal * 100), 100);
               const left    = Math.max(goal - t.total, 0);
